@@ -17,21 +17,21 @@ object Main {
       .getOrCreate()
 
     val customerPath: String = applicationConf.getString("input.customer")
-    val customerDf: DataFrame = Reader.read(
+    val customerDf: DataFrame = Reader(
       spark,
       customerSchema,
       customerPath
     )
 
     val orderPath: String = applicationConf.getString("input.order")
-    val orderDf: DataFrame = Reader.read(
+    val orderDf: DataFrame = Reader(
       spark,
       orderSchema,
       orderPath
     )
 
     val productPath: String = applicationConf.getString("input.product")
-    val productDf: DataFrame = Reader.read(
+    val productDf: DataFrame = Reader(
       spark,
       productSchema,
       productPath
@@ -47,6 +47,6 @@ object Main {
       .select("customerName", "productName")
 
     val outputPath: String = applicationConf.getString("output.result")
-    Writer.write(mostPopularProductDf, outputPath)
+    Writer(mostPopularProductDf, outputPath)
   }
 }
