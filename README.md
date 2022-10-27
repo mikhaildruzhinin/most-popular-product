@@ -3,7 +3,7 @@ Spark-приложение для определения самого попул
 Если таких несколько, то выводятся все варианты, находящиеся на первом месте по полурярности.
 
 Приложение принимает на вход три файла в формате `csv` и формирует выходной файл с колонками `customerName` и `productName` также в формате `csv`.
-Образец выходного файла расположен [здесь](https://github.com/mikhaildruzhinin/most-popular-product/tree/main/data/result_sample).
+Образец выходного файла расположен [здесь](https://github.com/mikhaildruzhinin/most-popular-product/tree/main/data/result_example).
 ## Установка
 Для работы с приложением требуется [Docker](https://www.docker.com/) и [sbt](https://www.scala-sbt.org/index.html).
 
