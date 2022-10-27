@@ -1,9 +1,7 @@
 package application
 
-import application.Schemas.{customerSchema, orderSchema, productSchema}
-import application.Transformations._
 import com.typesafe.config.{Config, ConfigFactory}
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.SparkSession
 
 object Main {
   def main(args: Array[String]): Unit = {
@@ -13,40 +11,8 @@ object Main {
     val spark: SparkSession = SparkSession
       .builder()
       .appName(appName)
-      .config("spark.master", "local")
       .getOrCreate()
 
-    val customerPath: String = applicationConf.getString("input.customer")
-    val customerDf: DataFrame = Reader(
-      spark,
-      customerSchema,
-      customerPath
-    )
-
-    val orderPath: String = applicationConf.getString("input.order")
-    val orderDf: DataFrame = Reader(
-      spark,
-      orderSchema,
-      orderPath
-    )
-
-    val productPath: String = applicationConf.getString("input.product")
-    val productDf: DataFrame = Reader(
-      spark,
-      productSchema,
-      productPath
-    )
-
-    val mostPopularProductDf: DataFrame = customerDf
-      .transform(
-        renameCustomerColumns() andThen
-          addOrderData(orderDf) andThen
-          getMostPopularProducts andThen
-          addProductData(productDf)
-      )
-      .select("customerName", "productName")
-
-    val outputPath: String = applicationConf.getString("output.result")
-    Writer(mostPopularProductDf, outputPath)
+      ApplicationLauncher(applicationConf, spark)
   }
 }
