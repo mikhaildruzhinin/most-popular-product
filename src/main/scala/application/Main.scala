@@ -88,6 +88,6 @@ object Main {
       )
       .select("customerName", "productName")
 
-    mostPopularProductDf.show()
+    Writer.write(mostPopularProductDf, "src/main/resources/result")
   }
 }
