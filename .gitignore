@@ -47,3 +47,5 @@ bin/
 
 out/
 *.db
+
+result/

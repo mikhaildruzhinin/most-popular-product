@@ -17,22 +17,25 @@ object Main {
       .config("spark.master", "local")
       .getOrCreate()
 
+    val customerPath: String = applicationConf.getString("input.customer")
     val customerDf: DataFrame = Reader.read(
       spark,
       customerSchema,
-      "src/main/resources/customer.csv"
+      customerPath
     )
 
+    val orderPath: String = applicationConf.getString("input.order")
     val orderDf: DataFrame = Reader.read(
       spark,
       orderSchema,
-      "src/main/resources/order.csv"
+      orderPath
     )
 
+    val productPath: String = applicationConf.getString("input.product")
     val productDf: DataFrame = Reader.read(
       spark,
       productSchema,
-      "src/main/resources/product.csv"
+      productPath
     )
 
     val mostPopularProductDf: DataFrame = customerDf
@@ -88,6 +91,7 @@ object Main {
       )
       .select("customerName", "productName")
 
-    Writer.write(mostPopularProductDf, "src/main/resources/result")
+    val outputPath: String = applicationConf.getString("output.result")
+    Writer.write(mostPopularProductDf, outputPath)
   }
 }
