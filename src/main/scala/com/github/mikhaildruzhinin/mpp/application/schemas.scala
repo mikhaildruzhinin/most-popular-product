@@ -1,8 +1,8 @@
-package application
+package com.github.mikhaildruzhinin.mpp.application
 
 import org.apache.spark.sql.types._
 
-object Schemas {
+object schemas {
   val customerSchema: StructType = StructType(
     Array(
       StructField("id", IntegerType),
