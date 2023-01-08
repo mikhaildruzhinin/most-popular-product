@@ -36,7 +36,7 @@ class ApplicationRunnerSuite extends AnyFunSuite with DataFrameSuiteBase {
     val resultParams = InputParams(
       header = true,
       delimiter = "\t",
-      path = "src/test/resources/data/result"
+      path = appConfig.output.result.path
     )
     val resultDf: DataFrame = Reader(resultSchema, resultParams)
 
