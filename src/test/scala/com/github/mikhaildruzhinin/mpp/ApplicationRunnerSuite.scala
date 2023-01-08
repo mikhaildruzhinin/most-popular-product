@@ -1,8 +1,9 @@
 package com.github.mikhaildruzhinin.mpp
 
-import com.github.mikhaildruzhinin.mpp.application.ApplicationRunner
-import com.github.mikhaildruzhinin.mpp.application.config.AppConfig
+import com.github.mikhaildruzhinin.mpp.application.{ApplicationRunner, Reader}
+import com.github.mikhaildruzhinin.mpp.application.config.{AppConfig, InputParams}
 import com.holdenkarau.spark.testing.DataFrameSuiteBase
+import org.apache.spark.sql.types.{StringType, StructField, StructType}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.scalatest.funsuite.AnyFunSuite
 import pureconfig.ConfigSource.default.loadOrThrow
@@ -14,7 +15,7 @@ class ApplicationRunnerSuite extends AnyFunSuite with DataFrameSuiteBase {
     lazy val appConfig: AppConfig = loadOrThrow[AppConfig]
 
     import spark.implicits._
-    val expectedResultDf: DataFrame = Seq(
+    val expectedDf: DataFrame = Seq(
       ("John", "Apple iPhone 7"),
       ("Philip", "Apple iPhone 7"),
       ("Philip", "Apple iPhone 8"),
@@ -25,21 +26,20 @@ class ApplicationRunnerSuite extends AnyFunSuite with DataFrameSuiteBase {
       ("Sara", "Apple AirPods")
     ).toDF("customerName", "productName")
 
-    class TestApplicationRunner(appConfig: AppConfig)(implicit spark: SparkSession)
-      extends ApplicationRunner(appConfig: AppConfig) {
-
-      override protected lazy val run: Unit = assertDataFrameEquals(
-        expectedResultDf,
-        mostPopularProductDf
+    ApplicationRunner(appConfig)
+    val resultSchema: StructType = StructType(
+      Array(
+        StructField("customerName", StringType),
+        StructField("productName", StringType)
       )
-    }
+    )
+    val resultParams = InputParams(
+      header = true,
+      delimiter = "\t",
+      path = "src/test/resources/data/result"
+    )
+    val resultDf: DataFrame = Reader(resultSchema, resultParams)
 
-    object TestApplicationRunner {
-      def apply(appConfig: AppConfig)(implicit spark: SparkSession): Unit = {
-        new TestApplicationRunner(appConfig).run
-      }
-    }
-
-    TestApplicationRunner(appConfig)
+    assertDataFrameDataEquals(expectedDf, resultDf)
   }
 }

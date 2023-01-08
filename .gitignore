@@ -46,7 +46,6 @@ bin/
 *.class
 
 out/
-*.db
 
 apps/*.jar
-data/result/
+result/
