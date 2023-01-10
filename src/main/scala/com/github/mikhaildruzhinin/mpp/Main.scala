@@ -1,7 +1,7 @@
 package com.github.mikhaildruzhinin.mpp
 
-import com.github.mikhaildruzhinin.mpp.application.ApplicationRunner
 import com.github.mikhaildruzhinin.mpp.application.config.AppConfig
+import com.github.mikhaildruzhinin.mpp.application.runners.ApplicationRunner
 import org.apache.spark.sql.SparkSession
 import pureconfig.ConfigSource.default.loadOrThrow
 import pureconfig.generic.auto._
@@ -15,6 +15,6 @@ object Main {
       .appName(appConfig.spark.appName)
       .getOrCreate()
 
-      ApplicationRunner(appConfig)
+      ApplicationRunner(appConfig.spark.appName, appConfig).run
   }
 }

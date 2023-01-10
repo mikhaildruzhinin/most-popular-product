@@ -1,11 +1,14 @@
-package com.github.mikhaildruzhinin.mpp.application
+package com.github.mikhaildruzhinin.mpp.application.runners
 
 import com.github.mikhaildruzhinin.mpp.application.config.AppConfig
 import com.github.mikhaildruzhinin.mpp.application.schemas._
 import com.github.mikhaildruzhinin.mpp.application.transformations._
+import com.github.mikhaildruzhinin.mpp.application.{Reader, Writer}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
-class ApplicationRunner(appConfig: AppConfig)(implicit spark: SparkSession) {
+class MPPApplicationRunner(appConfig: AppConfig)(implicit spark: SparkSession)
+  extends ApplicationRunner {
+
   protected lazy val customerDf: DataFrame = Reader(
     customerSchema,
     appConfig.input.customer
@@ -30,14 +33,14 @@ class ApplicationRunner(appConfig: AppConfig)(implicit spark: SparkSession) {
     )
     .select("customerName", "productName")
 
-  protected lazy val run: Unit = Writer(
+  lazy val run: Unit = Writer(
     mostPopularProductDf,
     appConfig.output.result
   )
 }
 
-object ApplicationRunner {
-  def apply(appConfig: AppConfig)(implicit spark: SparkSession): Unit = {
-    new ApplicationRunner(appConfig).run
+object MPPApplicationRunner {
+  def apply(appConfig: AppConfig)(implicit spark: SparkSession): MPPApplicationRunner = {
+    new MPPApplicationRunner(appConfig)
   }
 }
