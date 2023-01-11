@@ -5,6 +5,16 @@ import org.apache.spark.sql.SparkSession
 
 trait ApplicationRunner {
    val run: Unit
+  /*
+  val readers: List[Reader]
+
+  val customerReader: Reader
+  val orderReader: Reader
+  val productReader: Reader
+
+  val transformer
+  val writer: CSVWriter
+   */
 }
 
 object ApplicationRunner {

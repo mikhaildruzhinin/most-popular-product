@@ -3,22 +3,22 @@ package com.github.mikhaildruzhinin.mpp.application
 object config {
   case class SparkConfig(appName: String)
 
-  case class InputParams(header: Boolean,
+  case class SourceParams(header: Boolean,
                          delimiter: String,
                          path: String)
 
-  case class OutputParams(saveMode: String,
-                          header: Boolean,
-                          delimiter: String,
-                          path: String)
+  case class SinkParams(saveMode: String,
+                        header: Boolean,
+                        delimiter: String,
+                        path: String)
 
-  case class InputConfig(customer: InputParams,
-                         order: InputParams,
-                         product: InputParams)
+  case class SourceConfig(customer: SourceParams,
+                          order: SourceParams,
+                          product: SourceParams)
 
-  case class OutputConfig(result: OutputParams)
+  case class SinkConfig(result: SinkParams)
 
   case class AppConfig(spark: SparkConfig,
-                       input: InputConfig,
-                       output: OutputConfig)
+                       source: SourceConfig,
+                       sink: SinkConfig)
 }

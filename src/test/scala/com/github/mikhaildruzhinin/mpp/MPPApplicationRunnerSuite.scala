@@ -1,7 +1,7 @@
 package com.github.mikhaildruzhinin.mpp
 
-import com.github.mikhaildruzhinin.mpp.application.Reader
-import com.github.mikhaildruzhinin.mpp.application.config.{AppConfig, InputParams}
+import com.github.mikhaildruzhinin.mpp.application.config.{AppConfig, SourceParams}
+import com.github.mikhaildruzhinin.mpp.application.io.Reader
 import com.github.mikhaildruzhinin.mpp.application.runners.MPPApplicationRunner
 import com.holdenkarau.spark.testing.DataFrameSuiteBase
 import org.apache.spark.sql.types.{StringType, StructField, StructType}
@@ -34,10 +34,10 @@ class MPPApplicationRunnerSuite extends AnyFunSuite with DataFrameSuiteBase {
         StructField("productName", StringType)
       )
     )
-    val resultParams = InputParams(
-      header = true,
-      delimiter = "\t",
-      path = appConfig.output.result.path
+    val resultParams = SourceParams(
+      header = appConfig.sink.result.header,
+      delimiter = appConfig.sink.result.delimiter,
+      path = appConfig.sink.result.path
     )
     val resultDf: DataFrame = Reader(resultSchema, resultParams)
 

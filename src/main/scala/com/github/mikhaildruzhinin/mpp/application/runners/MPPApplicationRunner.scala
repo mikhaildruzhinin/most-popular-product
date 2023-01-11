@@ -3,7 +3,7 @@ package com.github.mikhaildruzhinin.mpp.application.runners
 import com.github.mikhaildruzhinin.mpp.application.config.AppConfig
 import com.github.mikhaildruzhinin.mpp.application.schemas._
 import com.github.mikhaildruzhinin.mpp.application.transformations._
-import com.github.mikhaildruzhinin.mpp.application.{Reader, Writer}
+import com.github.mikhaildruzhinin.mpp.application.io.{Reader, Writer}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
 class MPPApplicationRunner(appConfig: AppConfig)(implicit spark: SparkSession)
@@ -11,17 +11,17 @@ class MPPApplicationRunner(appConfig: AppConfig)(implicit spark: SparkSession)
 
   protected lazy val customerDf: DataFrame = Reader(
     customerSchema,
-    appConfig.input.customer
+    appConfig.source.customer
   )
 
   protected lazy val orderDf: DataFrame = Reader(
     orderSchema,
-    appConfig.input.order
+    appConfig.source.order
   )
 
   protected lazy val productDf: DataFrame = Reader(
     productSchema,
-    appConfig.input.product
+    appConfig.source.product
   )
 
   protected lazy val mostPopularProductDf: DataFrame = customerDf
@@ -33,9 +33,9 @@ class MPPApplicationRunner(appConfig: AppConfig)(implicit spark: SparkSession)
     )
     .select("customerName", "productName")
 
-  lazy val run: Unit = Writer(
+  override lazy val run: Unit = Writer(
     mostPopularProductDf,
-    appConfig.output.result
+    appConfig.sink.result
   )
 }
 
