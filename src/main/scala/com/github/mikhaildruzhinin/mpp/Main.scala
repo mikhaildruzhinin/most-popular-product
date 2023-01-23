@@ -15,6 +15,6 @@ object Main {
       .appName(appConfig.spark.appName)
       .getOrCreate()
 
-      ApplicationRunner(appConfig.spark.appName, appConfig).run
+      ApplicationRunner(appConfig.spark.appName, appConfig)
   }
 }
