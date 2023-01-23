@@ -8,9 +8,9 @@ trait ApplicationRunner {
 }
 
 object ApplicationRunner {
-  def apply(appName: String, appConfig: AppConfig)
+  def apply(appConfig: AppConfig)
            (implicit spark: SparkSession): Unit = {
-    appName match {
+    appConfig.appName match {
 //      case "most_popular_product" => MPPApplicationRunner(appConfig)
       case "customer" => CustomerApplicationRunner(appConfig)
       case _ => throw new Exception("Invalid application name")

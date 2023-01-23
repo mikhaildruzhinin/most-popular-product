@@ -12,9 +12,9 @@ object Main {
 
     implicit lazy val spark: SparkSession = SparkSession
       .builder()
-      .appName(appConfig.spark.appName)
+      .appName(appConfig.appName)
       .getOrCreate()
 
-      ApplicationRunner(appConfig.spark.appName, appConfig)
+      ApplicationRunner(appConfig)
   }
 }

@@ -1,8 +1,6 @@
 package com.github.mikhaildruzhinin.mpp.application
 
 object config {
-  case class SparkConfig(appName: String)
-
   case class SourceParams(header: Boolean,
                          delimiter: String,
                          path: String)
@@ -18,7 +16,7 @@ object config {
 
   case class SinkConfig(result: SinkParams)
 
-  case class AppConfig(spark: SparkConfig,
+  case class AppConfig(appName: String,
                        source: SourceConfig,
                        sink: SinkConfig)
 }
