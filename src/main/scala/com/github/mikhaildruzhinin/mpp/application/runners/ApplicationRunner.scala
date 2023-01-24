@@ -4,15 +4,14 @@ import com.github.mikhaildruzhinin.mpp.application.config.AppConfig
 import org.apache.spark.sql.SparkSession
 
 trait ApplicationRunner {
-  def apply(appConfig: AppConfig)(implicit spark: SparkSession): Unit
+  def apply()(implicit appConfig: AppConfig, spark: SparkSession): Unit
 }
 
 object ApplicationRunner {
-  def apply(appConfig: AppConfig)
-           (implicit spark: SparkSession): Unit = {
+  def apply()(implicit appConfig: AppConfig, spark: SparkSession): Unit = {
     appConfig.appName match {
-//      case "most_popular_product" => MPPApplicationRunner(appConfig)
-      case "customer" => CustomerApplicationRunner(appConfig)
+//      case "most_popular_product" => MPPApplicationRunner()
+      case "customer" => CustomerApplicationRunner()
       case _ => throw new Exception("Invalid application name")
     }
   }

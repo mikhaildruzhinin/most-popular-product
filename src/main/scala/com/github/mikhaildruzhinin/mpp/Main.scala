@@ -8,13 +8,13 @@ import pureconfig.generic.auto._
 
 object Main {
   def main(args: Array[String]): Unit = {
-    lazy val appConfig: AppConfig = loadOrThrow[AppConfig]
+    implicit lazy val appConfig: AppConfig = loadOrThrow[AppConfig]
 
     implicit lazy val spark: SparkSession = SparkSession
       .builder()
       .appName(appConfig.appName)
       .getOrCreate()
 
-      ApplicationRunner(appConfig)
+      ApplicationRunner()
   }
 }

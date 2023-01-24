@@ -1,10 +1,10 @@
-package com.github.mikhaildruzhinin.mpp.application
+package com.github.mikhaildruzhinin.mpp.application.transformations
 
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.functions.{col, max, sum}
 
-object transformations {
+object MppTransformations extends Transformations {
   def renameCustomerColumns(): DataFrame => DataFrame = {
     df => df
       .withColumnRenamed(
