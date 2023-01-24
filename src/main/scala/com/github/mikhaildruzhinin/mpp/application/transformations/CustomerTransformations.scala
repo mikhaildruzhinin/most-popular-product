@@ -1,7 +1,15 @@
 package com.github.mikhaildruzhinin.mpp.application.transformations
 
-import org.apache.spark.sql.Dataset
+import org.apache.spark.sql.DataFrame
 
 object CustomerTransformations extends Transformations {
-  def dummyTransformation[T](): Dataset[T] => Dataset[T] = ds => ds
+  private def dummyTransformation(): DataFrame => DataFrame = df => df
+
+  def apply(customerDf: DataFrame): DataFrame = {
+    customerDf.transform(
+      dummyTransformation() andThen
+        dummyTransformation() andThen
+        dummyTransformation()
+    )
+  }
 }

@@ -16,5 +16,7 @@ object Main {
       .getOrCreate()
 
       ApplicationRunner()
+
+    spark.stop()
   }
 }
